@@ -1,6 +1,6 @@
 # NAS Forwarder VPN
 
-Image repository [Dockerhub: mlefkon/nas-forwarder-vpn](https://hub.docker.com/r/mlefkon/nas-forwarder-vpn), Source repository [Github: mlefkon/nas-forwarder-vpn](https://github.com/mlefkon/syno-forwarder-vpn)
+Image repository [Dockerhub: mlefkon/nas-forwarder-vpn](https://hub.docker.com/r/mlefkon/nas-forwarder-vpn), Source repository [Github: mlefkon/nas-forwarder-vpn](https://github.com/mlefkon/nas-forwarder-vpn)
 
 ## **What It Does**
 
