@@ -1,6 +1,8 @@
 # NAS Forwarder VPN
 
-Image repository [Dockerhub: mlefkon/nas-forwarder-vpn](https://hub.docker.com/r/mlefkon/nas-forwarder-vpn), Source repository [Github: mlefkon/nas-forwarder-vpn](https://github.com/mlefkon/nas-forwarder-vpn)
+- Image repository [Dockerhub: mlefkon/nas-forwarder-vpn](https://hub.docker.com/r/mlefkon/nas-forwarder-vpn)
+
+- Source repository [Github: mlefkon/nas-forwarder-vpn](https://github.com/mlefkon/nas-forwarder-vpn)
 
 ## **What It Does**
 
@@ -105,11 +107,11 @@ This outside server is an unrestricted VPN server that has a static public IP. A
   
     - In Control Panel, select Network -> Network Interface (tab) -> Create Menu -> Create VPN Profile
 
-      ![img](./images/nas.a.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.a.png)
 
     - Select L2TP/IPSec
 
-      ![img](./images/nas.b.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.b.png)
 
     - General Settings
 
@@ -119,7 +121,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
       Username, Password, Pre-shared Key: use the ones that you filled into the `docker run` command above.
 
-      ![img](./images/nas.c.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.c.png)
 
     - Advanced Settings
 
@@ -133,17 +135,17 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
       - Reconnect when the VPN connection is lost
 
-      ![img](./images/nas.d.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.d.png)
 
       Hit 'Apply'
 
     - Select your NAS Forwarder VPN, right-click and 'Connect'
 
-      ![img](./images/nas.e.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.e.png)
 
     - And Success
 
-      ![img](./images/nas.f.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.f.png)
 
       Note: the IP Address here is irrelevant because it is the NAS's IP within the private VPN network.
 
@@ -151,7 +153,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
     Now you can use your NAS and it's services in an app or a web browser.  When you connect, make sure you use your new `(IP address)` (from `ssh`, not from the NAS's Connected indicator above) and the port number needed.
 
-      ![img](./images/nas.g.png)
+      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.g.png)
 
 ## Notes
 
