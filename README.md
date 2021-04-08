@@ -67,7 +67,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
 1. Choose Ports
 
-   Decide what apps you need to access on your NAS and choose the corresponding ports. An App/Port list can be found here for [Synology](https://www.synology.com/en-us/knowledgebase/DSM/tutorial/Network/What_network_ports_are_used_by_Synology_services) and [QNap](https://www.qnap.com.cn/en/how-to/faq/article/what-is-the-port-number-used-by-the-turbo-nas).
+   Decide what apps you need to access on your NAS and choose the corresponding ports. Service/App/Port lists can be found here: [Synology](https://www.synology.com/en-us/knowledgebase/DSM/tutorial/Network/What_network_ports_are_used_by_Synology_services), [QNap](https://www.qnap.com.cn/en/how-to/faq/article/what-is-the-port-number-used-by-the-turbo-nas), [TrueNAS](https://www.truenas.com/docs/references/defaultports/), [Asustor](https://www.asustor.com/knowledge/detail/?id=6&group_id=601), [NetGear ReadyNAS](https://kb.netgear.com/1166/Port-numbers-for-port-forwarding)
 
 1. Run the Server
 
@@ -161,9 +161,9 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
 Only make one connection (with your NAS) to this VPN.  Do not connect other PCs or devices.  The VPN forwards to the first device connected, so if a phone connected first for some reason, the NAS connecting later would not see any traffic.
 
-## Trouble Shooting
+## Troubleshooting
 
-Log into your cloud server, `ssh root@(IP Address)`, and look at the VPN's logs:
+Log into your cloud server, `ssh root@(IP Address)`, and copy/paste this to see the VPN's logs:
 
 ```bash
 docker logs nas-forwarder
