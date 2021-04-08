@@ -39,7 +39,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
 1. Sign in
 
-    In Windows, press (Windows Key)-R and enter: `ssh root@(IP Address)`
+    If using Windows, press (Windows Key)-R and enter: `ssh root@(IP Address)`
 
     Enter the `(root password)` when asked.
 
@@ -81,6 +81,8 @@ This outside server is an unrestricted VPN server that has a static public IP. A
       -e FORWARD_TCP_PORTS=(list of ports from above) \
       mlefkon/nas-forwarder-vpn
     ```
+
+    **Important**: The list of `-p` ports must match the list of `FORWARD_TCP_PORTS`.
 
     eg. On a Synology NAS to enable DSM, WebDAV and DS-Audio/File/Get/Photo (ports: 5000, 5001, 5005, 5006, 80 and 443):
 
@@ -153,7 +155,15 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
 ## Notes
 
-  Only make one connection (with your NAS) to this VPN.  Do not connect other PCs or devices.  The VPN forwards to the first device connected, so if a phone connected first for some reason, the NAS connecting later would not see any traffic.
+Only make one connection (with your NAS) to this VPN.  Do not connect other PCs or devices.  The VPN forwards to the first device connected, so if a phone connected first for some reason, the NAS connecting later would not see any traffic.
+
+## Trouble Shooting
+
+Log into your cloud server, `ssh root@(IP Address)`, and look at the VPN's logs:
+
+```bash
+docker logs nas-forwarder
+```
 
 ## Make Your Server Friendlier
 
