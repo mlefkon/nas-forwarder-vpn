@@ -109,11 +109,11 @@ This outside server is an unrestricted VPN server that has a static public IP. A
   
     - In Control Panel, select Network -> Network Interface (tab) -> Create Menu -> Create VPN Profile
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.a.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.a.png)
 
     - Select L2TP/IPSec
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.b.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.b.png)
 
     - General Settings
 
@@ -123,7 +123,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
       Username, Password, Pre-shared Key: use the ones that you filled into the `docker run` command above.
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.c.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.c.png)
 
     - Advanced Settings
 
@@ -137,17 +137,17 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
       - Reconnect when the VPN connection is lost
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.d.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.d.png)
 
       Hit 'Apply'
 
     - Select your NAS Forwarder VPN, right-click and 'Connect'
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.e.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.e.png)
 
     - And Success
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.f.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.f.png)
 
       Note: the IP Address here is irrelevant because it is the NAS's IP within the private VPN network.
 
@@ -155,7 +155,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
     Now you can use your NAS and it's services in an app or a web browser.  When you connect, make sure you use your new `(IP address)` (from `ssh`, not from the NAS's Connected indicator above) and the port number needed.
 
-      ![-See github.com/mlefkon/nas-forwarder-vpn for images](./images/nas.g.png)
+      ![-For images see: github.com/mlefkon/nas-forwarder-vpn](./images/nas.g.png)
 
 ## Notes
 
