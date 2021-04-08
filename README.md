@@ -13,9 +13,11 @@ You can't connect to your NAS from outside the home if:
 - Your ISP blocks some ports.
 - Your ISP gives you a private IP address.  
   
-  > Your home modem is hidden behind the ISP's NAT router. The ISP has a single public IP on one side of the router and many homes' private IPs on the other side.  This is probably the case if the ISP is cellular, but could happen as well with a landline ISP.  ISPs do this to conserve IP addresses.
+  Your home modem is hidden behind the ISP's NAT router. The ISP has a single public IP on one side of the router and many homes' private IPs on the other side.  This is probably the case if the ISP is cellular, but could happen as well with a landline ISP.  ISPs do this to conserve IP addresses.
 
-   To check this: Logon to admin page of your router and check the "Internet Status" IP.  If it differs from [https://whatismyipaddress.com](https://whatismyipaddress.com) then your IP is private.
+  To check this:
+
+  - Logon to admin page of your router and check the "Internet Status". Find the IP address.  If it differs from [https://whatismyipaddress.com](https://whatismyipaddress.com) then your IP is private.
 
 Dynamic DNS (DDNS) will not work in either of these situations.
 
