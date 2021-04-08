@@ -78,7 +78,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
       -e VPN_IPSEC_PSK=(pre_shared_key) \
       -e VPN_USER=(user_name) \
       -e VPN_PASSWORD=(vpn_password) \
-      -e TCP_PORTS=(list of ports from above) \
+      -e FORWARD_TCP_PORTS=(list of ports from above) \
       mlefkon/nas-forwarder-vpn
     ```
 
@@ -95,7 +95,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
       -e VPN_IPSEC_PSK='myipsecpresharedkey' \
       -e VPN_USER='testuser' \
       -e VPN_PASSWORD='testpassword' \
-      -e TCP_PORTS='5000,5001,5005,5006,80,443' \
+      -e FORWARD_TCP_PORTS='5000,5001,5005,5006,80,443' \
       mlefkon/nas-forwarder-vpn
     ```
 
@@ -142,6 +142,8 @@ This outside server is an unrestricted VPN server that has a static public IP. A
     - And Success
 
       ![img](./images/nas.f.png)
+
+      Note: the IP Address here is irrelevant because it is the NAS's IP within the private VPN network.
 
 1. Use your NAS
 
