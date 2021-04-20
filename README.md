@@ -167,13 +167,13 @@ Your new server is a bit annoying right now:
 
 - You need to remember it's IP address
 - Web browsers warn that the connection is insecure
-- The the port must be added to the URL
+- The port must be appended to the URL
 
-With a domain name, the security message will be eliminated and you won't have to type the ports each time.
+With a domain name, the security message will be eliminated and you won't have to type the port each time.
 
 ### Get a Domain Name
 
-  Link your new cloud server's IP address (from above) to a domain name via a registar (eg. [Hetzner](https://www.hetzner.com/domainregistration), [GoDaddy](https://www.godaddy.com)).
+  Link your new cloud server's IP address to a domain name via a registar (eg. [Hetzner](https://www.hetzner.com/domainregistration), [GoDaddy](https://www.godaddy.com)).
 
   In the example below (for a Synology NAS), these sub-domains are used:
 
@@ -185,7 +185,7 @@ With a domain name, the security message will be eliminated and you won't have t
 
 ### Attach the Domain to your new Cloud Server
 
-  Use a free product like [Traefik](https://traefik.io/) to secure your domain name with the (also free) [Let's Encrypt](https://letsencrypt.org/) Certificate Authority.  
+  Use a free product like [Traefik](https://traefik.io/) to handle your domain name with the (also free) [Let's Encrypt](https://letsencrypt.org/) Certificate Authority.  
 
   First `ssh root@(IP Address)` into your cloud server and remove any current VPN you may have up:
 
@@ -275,7 +275,7 @@ See the state of Traefik:
 
 To `ssh` into the NAS, use the alternate SSH port defined above (4022) because otherwise access to your cloud server would be blocked:
 
-- `ssh username@nas.(my_domain).com -p 5022`
+- `ssh username@nas.(my_domain).com -p 4022`
 
 Similarly, `rsync` to the NAS using port 4022 as well:
 
