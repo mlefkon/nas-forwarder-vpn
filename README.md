@@ -17,7 +17,7 @@ You can't connect to your NAS from outside the home if:
 
   To check this:
 
-  - Logon to admin page of your router and check the "Internet Status". Find the IP address.  If it differs from [https://whatismyipaddress.com](https://whatismyipaddress.com) then your IP is private.
+  - Logon to admin page of your router and check the "Internet Status". Find the IP address.  If it differs from [https://whatismyipaddress.com]() then your IP is private.
 
 Dynamic DNS (DDNS) will not work in either of these situations.
 
@@ -31,9 +31,7 @@ This outside server is an unrestricted VPN server that has a static public IP. A
 
 ## **Setup** (for Dummies)
 
-1. Sign up with a cloud provider.
-
-    I use Hetzner ([20€ coupon](https://hetzner.cloud/?ref=qfeTgy8M0mjf) - full disclosure: affiliate link).
+1. Sign up with a cloud provider, eg. Hetzner ([20€ coupon](https://hetzner.cloud/?ref=qfeTgy8M0mjf) - full disclosure: affiliate link).
 
 1. Create a cloud server:
 
@@ -183,95 +181,105 @@ With a domain name, the security message will be eliminated and you won't have t
 - webdav.nas.(my_domain).com
 - traefik.(my_domain).com
 
-### Attach the Domain to your new Cloud Server
+### Attach the Domain Name to your Cloud Server
 
-  Use a free product like [Traefik](https://traefik.io/) to handle your domain name with the (also free) [Let's Encrypt](https://letsencrypt.org/) Certificate Authority.  
+Use a free product like [Traefik](https://traefik.io/) to handle your domain name with the (also free) [Let's Encrypt](https://letsencrypt.org/) Certificate Authority.  
 
-  First `ssh root@(IP Address)` into your cloud server and remove any current VPN you may have up:
+First `ssh root@(IP Address)` into your cloud server and remove any current VPN you may have up:
 
-  ```bash
-  docker rm -f nas-forwarder
-  ```
+```bash
+docker rm -f nas-forwarder
+```
 
-  Setup an internal Traefik network:
+Setup an internal Traefik network:
 
-  ```bash
-  docker network create traefik-net
-  ```
+```bash
+docker network create traefik-net
+```
 
-  Copy/paste the following, filling in `(vpn_user_name)`, `(vpn_user_password)` and `(vpn_pre_shared_key)` again as well as `(my_domain)` and `(my_email_address)`:
+Copy/paste the following, filling in `(vpn_user_name)`, `(vpn_user_password)` and `(vpn_pre_shared_key)` again as well as `(my_domain)` and `(my_email_address)`:
 
-  ```bash
-  docker run --restart=always --network=traefik-net --detach --name traefik \
-  -v "//var/run/docker.sock://var/run/docker.sock:ro" \
-  -p 80:80/tcp -p 443:443/tcp \
-  --label 'traefik.enable=true' \
-  --label 'traefik.docker.network=traefik-net' \
-  --label 'traefik.http.routers.AllHttp.rule=hostregexp(`{host:.+}`)' \
-  --label 'traefik.http.routers.AllHttp.entrypoints=Web' \
-  --label 'traefik.http.routers.AllHttp.middlewares=RedirectToHttps' \
-  --label 'traefik.http.routers.AllHttp.service=noop@internal' \
-  --label 'traefik.http.routers.TraefikDashboard.rule=Host(`traefik.(my_domain).com`)' \
-  --label 'traefik.http.routers.TraefikDashboard.entrypoints=WebSecure' \
-  --label 'traefik.http.routers.TraefikDashboard.tls=true' \
-  --label 'traefik.http.routers.TraefikDashboard.tls.certresolver=LetsEncryptCert' \
-  --label 'traefik.http.routers.TraefikDashboard.service=api@internal' \
-  --label 'traefik.http.middlewares.RedirectToHttps.redirectscheme.scheme=https' \
-  traefik:v2.4 \
-  --providers.docker=true \
-  --providers.docker.exposedbydefault=false \
-  --entrypoints.Web.address=:80 \
-  --entrypoints.WebSecure.address=:443 \
-  --certificatesresolvers.LetsEncryptCert.acme.email=(my_email_address) \
-  --certificatesresolvers.LetsEncryptCert.acme.storage=/etc/acme.json \
-  --certificatesresolvers.LetsEncryptCert.acme.tlschallenge=true \
-  --serverstransport.insecureskipverify=true \
-  --api \
-  --api.dashboard
+```bash
+docker run --restart=always --network=traefik-net --detach --name traefik \
+-v "//var/run/docker.sock://var/run/docker.sock:ro" \
+-p 80:80/tcp -p 443:443/tcp \
+--label 'traefik.enable=true' \
+--label 'traefik.docker.network=traefik-net' \
+--label 'traefik.http.routers.AllHttp.rule=hostregexp(`{host:.+}`)' \
+--label 'traefik.http.routers.AllHttp.entrypoints=Web' \
+--label 'traefik.http.routers.AllHttp.middlewares=RedirectToHttps' \
+--label 'traefik.http.routers.AllHttp.service=noop@internal' \
+--label 'traefik.http.routers.TraefikDashboard.rule=Host(`traefik.(my_domain).com`)' \
+--label 'traefik.http.routers.TraefikDashboard.entrypoints=WebSecure' \
+--label 'traefik.http.routers.TraefikDashboard.tls=true' \
+--label 'traefik.http.routers.TraefikDashboard.tls.certresolver=LetsEncryptCert' \
+--label 'traefik.http.routers.TraefikDashboard.service=api@internal' \
+--label 'traefik.http.middlewares.RedirectToHttps.redirectscheme.scheme=https' \
+traefik:v2.4 \
+--providers.docker=true \
+--providers.docker.exposedbydefault=false \
+--entrypoints.Web.address=:80 \
+--entrypoints.WebSecure.address=:443 \
+--certificatesresolvers.LetsEncryptCert.acme.email=(my_email_address) \
+--certificatesresolvers.LetsEncryptCert.acme.storage=/etc/acme.json \
+--certificatesresolvers.LetsEncryptCert.acme.tlschallenge=true \
+--serverstransport.insecureskipverify=true \
+--api \
+--api.dashboard \
+--log=true \
+--log.filePath=/logs/traefik.log \
+--log.format=common \
+--accesslog=true \
+--accesslog.filepath=/logs/access.log \
+--accesslog.format=common
 
-  docker run --restart=always --network=traefik-net --detach --name nas-forwarder --privileged \
-  -p 500:500/udp -p 4500:4500/udp -p 20:20/tcp -p 21:21/tcp -p 4022:22/tcp -p 873:873/tcp -p 6690:6690/tcp \
-  --expose 443/tcp --expose 5001/tcp --expose 5006/tcp \
-  --label 'traefik.enable=true' \
-  --label 'traefik.docker.network=traefik-net' \
-  --label 'traefik.http.routers.NasAdmin.rule=Host(`dsm.nas.(my_domain).com`)' \
-  --label 'traefik.http.routers.NasAdmin.entrypoints=WebSecure' \
-  --label 'traefik.http.routers.NasAdmin.tls=true' \
-  --label 'traefik.http.routers.NasAdmin.tls.certresolver=LetsEncryptCert' \
-  --label 'traefik.http.routers.NasAdmin.service=NasAdminServer' \
-  --label 'traefik.http.services.NasAdminServer.loadbalancer.server.port=5001' \
-  --label 'traefik.http.services.NasAdminServer.loadbalancer.server.scheme=https' \
-  --label 'traefik.http.routers.NasWeb.rule=Host(`www.nas.(my_domain).com`)' \
-  --label 'traefik.http.routers.NasWeb.entrypoints=WebSecure' \
-  --label 'traefik.http.routers.NasWeb.tls=true' \
-  --label 'traefik.http.routers.NasWeb.tls.certresolver=LetsEncryptCert' \
-  --label 'traefik.http.routers.NasWeb.service=NasWebServer' \
-  --label 'traefik.http.services.NasWebServer.loadbalancer.server.port=443' \
-  --label 'traefik.http.services.NasWebServer.loadbalancer.server.scheme=https' \
-  --label 'traefik.http.routers.NasWebDAV.rule=Host(`webdav.nas.(my_domain).com`)' \
-  --label 'traefik.http.routers.NasWebDAV.entrypoints=WebSecure' \
-  --label 'traefik.http.routers.NasWebDAV.tls=true' \
-  --label 'traefik.http.routers.NasWebDAV.tls.certresolver=LetsEncryptCert' \
-  --label 'traefik.http.routers.NasWebDAV.service=NasWebDAVServer' \
-  --label 'traefik.http.services.NasWebDAVServer.loadbalancer.server.port=5006' \
-  --label 'traefik.http.services.NasWebDAVServer.loadbalancer.server.scheme=https' \
-  -e VPN_IPSEC_PSK=(vpn_pre_shared_key) \
-  -e VPN_USER=(vpn_user_name)) \
-  -e VPN_PASSWORD=(vpn_user_password) \
-  -e FORWARD_TCP_PORTS='5001,5006,443,6690,873,22,20,21' \
-  mlefkon/nas-forwarder-vpn
+docker run --restart=always --network=traefik-net --detach --name nas-forwarder --privileged \
+-p 500:500/udp -p 4500:4500/udp -p 20:20/tcp -p 21:21/tcp -p 4022:22/tcp -p 873:873/tcp -p 6690:6690/tcp \
+--expose 443/tcp --expose 5001/tcp --expose 5006/tcp \
+--label 'traefik.enable=true' \
+--label 'traefik.docker.network=traefik-net' \
+--label 'traefik.http.routers.NasAdmin.rule=Host(`dsm.nas.(my_domain).com`)' \
+--label 'traefik.http.routers.NasAdmin.entrypoints=WebSecure' \
+--label 'traefik.http.routers.NasAdmin.tls=true' \
+--label 'traefik.http.routers.NasAdmin.tls.certresolver=LetsEncryptCert' \
+--label 'traefik.http.routers.NasAdmin.service=NasAdminServer' \
+--label 'traefik.http.services.NasAdminServer.loadbalancer.server.port=5001' \
+--label 'traefik.http.services.NasAdminServer.loadbalancer.server.scheme=https' \
+--label 'traefik.http.routers.NasWeb.rule=Host(`www.nas.(my_domain).com`)' \
+--label 'traefik.http.routers.NasWeb.entrypoints=WebSecure' \
+--label 'traefik.http.routers.NasWeb.tls=true' \
+--label 'traefik.http.routers.NasWeb.tls.certresolver=LetsEncryptCert' \
+--label 'traefik.http.routers.NasWeb.service=NasWebServer' \
+--label 'traefik.http.services.NasWebServer.loadbalancer.server.port=443' \
+--label 'traefik.http.services.NasWebServer.loadbalancer.server.scheme=https' \
+--label 'traefik.http.routers.NasWebDAV.rule=Host(`webdav.nas.(my_domain).com`)' \
+--label 'traefik.http.routers.NasWebDAV.entrypoints=WebSecure' \
+--label 'traefik.http.routers.NasWebDAV.tls=true' \
+--label 'traefik.http.routers.NasWebDAV.tls.certresolver=LetsEncryptCert' \
+--label 'traefik.http.routers.NasWebDAV.service=NasWebDAVServer' \
+--label 'traefik.http.services.NasWebDAVServer.loadbalancer.server.port=5006' \
+--label 'traefik.http.services.NasWebDAVServer.loadbalancer.server.scheme=https' \
+-e VPN_IPSEC_PSK=(vpn_pre_shared_key) \
+-e VPN_USER=(vpn_user_name)) \
+-e VPN_PASSWORD=(vpn_user_password) \
+-e FORWARD_TCP_PORTS='5001,5006,443,6690,873,22,20,21' \
+mlefkon/nas-forwarder-vpn
 
-  ```
+```
 
-  Now you can browse to your NAS:
+Lastly, update the IP address that you entered into your NAS's VPN Profile above and change it to [nas.(my_domain).com]().
 
-- [https://dsm.nas.(my_domain).com](https://dsm.nas.(my_domain).com) - NAS Administration
-- [https://www.nas.(my_domain).com](https://www.nas.(my_domain).com) - NAS's web server (blog, etc)
-- [https://webdav.nas.(my_domain).com](https://webdav.nas.(my_domain).com) - Supply this to applications that sync files, contacts, calendar, etc
+### All Done
+
+Now you can browse to your NAS:
+
+- [https://dsm.nas.(my_domain).com]() - NAS Administration
+- [https://www.nas.(my_domain).com]() - NAS's web server (blog, etc)
+- [https://webdav.nas.(my_domain).com]() - Supply this to applications that sync files, contacts, calendar, etc
 
 See the state of Traefik:
 
-- [https://traefik.(my_domain).com](https://traefik.(my_domain).com) - You may want to secure this with [Traefik Basic Authentication](https://doc.traefik.io/traefik/v2.0/middlewares/basicauth/)
+- [https://traefik.(my_domain).com]() - You may want to secure this with [Traefik Basic Authentication](https://doc.traefik.io/traefik/v2.0/middlewares/basicauth/)
 
 To `ssh` into the NAS, use the alternate SSH port defined above (4022) because otherwise access to your cloud server would be blocked:
 
@@ -283,9 +291,12 @@ Similarly, `rsync` to the NAS using port 4022 as well:
 
 ## Troubleshooting
 
-Log into your cloud server, `ssh root@(IP Address)`, then copy/paste:
+Log into your cloud server, `ssh root@(IP Address/Domain Name)`, then copy/paste:
 
   Command|To See
   ---|---
-  `docker logs nas-forwarder`|VPN's logs
-  `docker logs traefik`|Traefik's logs
+  `docker logs nas-forwarder`|docker's logs for VPN
+  `docker logs traefik`|docker's logs for Traefik
+  `docker exec traefik cat /logs/traefik.log`|Traefik errors
+  `docker exec traefik cat /logs/access.log`|Outside Visitors (not your NAS)
+  `docker exec syno-forwarder ipsec trafficstatus`|See connections to VPN (there should only be one, your NAS)
