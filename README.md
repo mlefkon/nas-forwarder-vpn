@@ -17,7 +17,7 @@ You can't connect to your NAS from outside the home if:
 
   To check this:
 
-  - Logon to admin page of your router and check the "Internet Status". Find the IP address.  If it differs from [https://whatismyipaddress.com]() then your IP is private.
+  - Logon to admin page of your router and check the "Internet Status". Find the IP address.  If it differs from [https://whatismyipaddress.com](https://whatismyipaddress.com) then your IP is private.
 
 Dynamic DNS (DDNS) will not work in either of these situations.
 
@@ -197,11 +197,18 @@ Setup an internal Traefik network:
 docker network create traefik-net
 ```
 
+Create permanent storage for SSL keys:
+
+```bash
+docker volume create letsencryptstorage
+```
+
 Copy/paste the following, filling in `(vpn_user_name)`, `(vpn_user_password)` and `(vpn_pre_shared_key)` again as well as `(my_domain)` and `(my_email_address)`:
 
 ```bash
 docker run --restart=always --network=traefik-net --detach --name traefik \
 -v "//var/run/docker.sock://var/run/docker.sock:ro" \
+-v letsencryptstorage:/letsencrypt \
 -p 80:80/tcp -p 443:443/tcp \
 --label 'traefik.enable=true' \
 --label 'traefik.docker.network=traefik-net' \
@@ -267,19 +274,19 @@ mlefkon/nas-forwarder-vpn
 
 ```
 
-Lastly, update the IP address that you entered into your NAS's VPN Profile above and change it to [nas.(my_domain).com]().
+Lastly, update the IP address that you entered into your NAS's VPN Profile above and change it to [nas.(my_domain).com](nas.(my_domain).com).
 
 ### All Done
 
 Now you can browse to your NAS:
 
-- [https://dsm.nas.(my_domain).com]() - NAS Administration
-- [https://www.nas.(my_domain).com]() - NAS's web server (blog, etc)
-- [https://webdav.nas.(my_domain).com]() - Supply this to applications that sync files, contacts, calendar, etc
+- [https://dsm.nas.(my_domain).com](https://dsm.nas.(my_domain).com) - NAS Administration
+- [https://www.nas.(my_domain).com](https://www.nas.(my_domain).com) - NAS's web server (blog, etc)
+- [https://webdav.nas.(my_domain).com](https://webdav.nas.(my_domain).com) - Supply this to applications that sync files, contacts, calendar, etc
 
 See the state of Traefik:
 
-- [https://traefik.(my_domain).com]() - You may want to secure this with [Traefik Basic Authentication](https://doc.traefik.io/traefik/v2.0/middlewares/basicauth/)
+- [https://traefik.(my_domain).com](https://traefik.(my_domain).com) - You may want to secure this with [Traefik Basic Authentication](https://doc.traefik.io/traefik/v2.0/middlewares/basicauth/)
 
 To `ssh` into the NAS, use the alternate SSH port defined above (4022) because otherwise access to your cloud server would be blocked:
 
